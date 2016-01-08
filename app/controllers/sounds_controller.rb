@@ -4,7 +4,8 @@ class SoundsController < ApplicationController
   # GET /sounds
   # GET /sounds.json
   def index
-    @sounds = Sound.all
+    @sounds = Sound.includes(:user).all
+    # @sounds = Sound.all
   end
 
   # GET /sounds/1
