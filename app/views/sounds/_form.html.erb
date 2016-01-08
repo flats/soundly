@@ -15,10 +15,14 @@
     <%= f.label :title %><br>
     <%= f.text_field :title %>
   </div>
+
   <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id %>
+  <%= f.fields_for :soundfiles do |soundfile_form| %>
+    <%= soundfile_form.label :file_name, "Upload a file" %><br>
+    <%= soundfile_form.file_field :file_name %><br>
+  <% end %>
   </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
