@@ -1,5 +1,6 @@
 class SoundsController < ApplicationController
   before_action :set_sound, only: [:edit, :update, :destroy]
+  skip_before_action :authenticate, only: [:index, :show]
 
   # GET /sounds
   def index
