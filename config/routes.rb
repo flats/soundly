@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
+  root to: 'home#index'
+
   get 'register', to: 'registration#new', as: :new_account
   post 'register', to: 'registration#create', as: :create_account
-
-  root to: 'home#index'
 
   get '/login', to: 'sessions#login', as: :login
   put '/login', to: 'sessions#create', as: :create_session
@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :soundfiles
   resources :sounds
-  resources :users, param: :username do
+  resources :users, param: :username, only: [:index, :show, :edit, :update, :destroy] do
     member do
       put :follow
     end
