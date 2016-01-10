@@ -44,7 +44,8 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user,
+        flash[:success] = true
+        format.html { redirect_to user_path(@user.username),
                       notice: 'User was successfully updated.' }
       else
         format.html { render :edit }
@@ -54,10 +55,11 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
+    session[:user_id] = nil
     @user.destroy
     respond_to do |format|
       format.html {
-        redirect_to home_index,
+        redirect_to :root,
                     notice: 'Your account was destroyed.'
       }
     end
@@ -67,7 +69,7 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.find(params[:username])
+    @user = User.find_by(username: params[:username])
   end
 
   # Never trust parameters from the scary internet,
