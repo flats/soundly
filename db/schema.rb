@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160108184011) do
+ActiveRecord::Schema.define(version: 20160110210805) do
+
+  create_table "follows", force: :cascade do |t|
+    t.integer  "follower_id"
+    t.integer  "leader_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "follows", ["follower_id"], name: "index_follows_on_follower_id"
+  add_index "follows", ["leader_id"], name: "index_follows_on_leader_id"
 
   create_table "soundfiles", force: :cascade do |t|
     t.integer  "sound_id"
