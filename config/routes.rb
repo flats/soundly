@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   get '/login', to: 'sessions#login', as: :login
-  post '/login', to: 'sessions#create', as: :create_session
+  put '/login', to: 'sessions#create', as: :create_session
   delete '/logout', to: 'sessions#logout', as: :logout
 
   resources :soundfiles

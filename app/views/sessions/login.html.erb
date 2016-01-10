@@ -1,5 +1,5 @@
 <h3>Login</h3>
-<%= form_tag create_session_path do %>
+<%= form_tag create_session_path, method: :put do %>
 <%= label_tag :username %>
 <%= text_field_tag :username %>
 <%= label_tag :password %>
