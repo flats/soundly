@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   resources :soundfiles
   resources :sounds
-  resources :users, param: :username
+  resources :users, param: :username do
+    member do
+      put :follow
+    end
+  end
   resources :home, only: [:index]
 
   # The priority is based upon order of creation: first created -> highest priority.

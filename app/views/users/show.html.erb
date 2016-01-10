@@ -1,27 +1,109 @@
-<p id="notice"><%= notice %></p>
+<% if logged_in? && current_user == @user %>
+<h3>Your Sounds</h3>
+<% else %>
+<h3><%= @user.username %>'s Sounds</h3>
+<% end %>
+
+<% if @user.sounds.empty? %>
+  <% if logged_in? && current_user == @user %>
+<p>You don't have any sounds yet. <%= link_to 'Create a sound', new_sound_path %>.</p>
+  <% else %>
+<p><%= @user.username %> doesn't have any sounds yet.</p>
+  <% end %>
+<% else %>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Soundfile</th>
+            <th>MIME Type</th>
+            <th>Play Sound</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @user.sounds.each do |sound| %>
+        <tr>
+            <td><%= link_to sound.title, sound %></td>
+            <td><%= link_to sound.soundfile.file_name, sound.soundfile.public_file_path %></td>
+            <td><%= sound.mime_type %></td>
+            <td>
+                <audio controls>
+                    <source src="/<%= sound.soundfile.public_file_path %>" type="<%= sound.soundfile.mime_type %>"/>
+                </audio>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+<% end %>
+
+<% if logged_in? %>
+<div class="show-actions">
+  <% if current_user == @user %>
+  <%= link_to "Create a new sound", new_sound_path, class: 'button-link' %><br>
+  <!-- <a href="/sounds/new" class="button-link">Create a new sound</a><br> -->
+  <% elsif !@user.followers.include?(current_user) %>
+  <%= button_to "Follow this user", follow_user, method: :put %><br>
+  <!-- <a href="/users/<%= @user.username %>/follow" class="button-link">Follow this user</a><br> -->
+  <% end %>
+</div>
+<% end %>
+
+<% if logged_in? && current_user == @user && @leaders %>
+<h3>Sounds Created by People You're Following</h3>
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Title</th>
+            <th>Soundfile</th>
+            <th>MIME Type</th>
+            <th>Play Sound</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @leaders.each do |leader| %>
+        <% leader.sounds.each do |sound| %>
+        <tr>
+            <td><%= link_to sound.user.username, user_path(sound.user.username) %></td>
+            <td><%= link_to sound.title, sound %></td>
+            <td><%= link_to sound.title, sound.soundfile.public_file_path %></td>
+            <td><%= sound.soundfile.mime_type %></td>
+            <td>
+                <audio controls>
+                    <source src="/<%= sound.soundfile.public_file_path %>" type="<%= sound.soundfile.mime_type %>"/>
+                </audio>
+            </td>
+        </tr>
+        <% end %>
+        <% end %>
+    </tbody>
+</table>
+<% end %>
+
+<h3>Account Details</h3>
 
 <p>
-  <strong>Username:</strong>
-  <%= @user.username %>
+  Username: <%= @user.username %><br>
+  Real Name: <%= @user.real_name %><br>
+  Bio: <%= @user.bio %>
 </p>
+<% if @followers %>
+<br>Followers:
+<ul id="followers-list">
+  <% @followers.each do |follower| %>
+  <li><%= link_to follower.name, user_path(follower.username) %></li>
+  <% end %>
+</ul>
+<% end %>
 
-
-<p>
-  <strong>Real name:</strong>
-  <%= @user.real_name %>
-</p>
-
-<p>
-  <strong>Bio:</strong>
-  <%= @user.bio %>
-</p>
-
-<p>
-  <strong>Image url:</strong>
-  <%= @user.image_url %>
-</p>
-
-<%= button_to "Logout", logout_path, method: :delete %>
+<div class="show-actions">
+  <% if logged_in? && current_user == @user %>
+  <%= button_to "Logout", logout_path, method: :delete %><br>
+  <% end %>
+  <%= link_to "Edit account", edit_user_path(@user.username), class: 'button-link' %><br>
+  <%= button_to "Delete account", user_path(@user.username), method: :delete %><br>
+</div>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
