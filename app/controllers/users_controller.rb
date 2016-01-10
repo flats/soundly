@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   skip_before_action :authenticate, only: [:index, :show]
 
   # GET /users
-  # GET /users.json
   def index
     @users = User.all
   end
@@ -16,31 +15,11 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
+  # GET /users/user_name/edit
   def edit
   end
 
-  # POST /users
-  def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save && @user.username
-        format.html { redirect_to @user,
-          notice: 'User was successfully created.' }
-      else
-        flash.now[:notice] = "Missing fields."
-        format.html { render :new }
-      end
-    end
-  end
-
-  # PATCH/PUT /users/1
+  # PATCH/PUT /users/user_name
   def update
     respond_to do |format|
       if @user.update(user_params)
@@ -53,7 +32,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
+  # DELETE /users/user_name
   def destroy
     session[:user_id] = nil
     @user.destroy
