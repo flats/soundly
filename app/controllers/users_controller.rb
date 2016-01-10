@@ -11,7 +11,6 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     @user = User.includes(:sounds).find_by(username: params[:username])
-    binding.pry
     if !@user
       render :status => 404
     end

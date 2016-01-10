@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   root to: 'home#index'
 
-  get 'sessions/login', as: :login
-  post 'sessions/login'
-  delete 'sessions/logout', as: :logout
+  get '/login', to: 'sessions#login', as: :login
+  post '/login', to: 'sessions#login', as: :sessions_login
+  delete '/logout', to: 'sessions#logout', as: :logout
 
   resources :soundfiles
   resources :sounds
