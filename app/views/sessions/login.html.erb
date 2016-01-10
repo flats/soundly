@@ -1,5 +1,5 @@
 <h3>Login</h3>
-<%= form_tag sessions_login_path do %>
+<%= form_tag create_session_path do %>
 <%= label_tag :username %>
 <%= text_field_tag :username %>
 <%= label_tag :password %>
@@ -7,5 +7,5 @@
 <%= submit_tag "Login" %>
 <% end %>
 <p>
-Don't have an account? <a href="/users/new">Create an account</a>.
+Don't have an account? <%= link_to "Create an account", new_account_path %>.
 </p>

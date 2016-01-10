@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  get 'register', to: 'registration#new', as: :new_account
+  post 'register', to: 'registration#create', as: :create_account
+
   root to: 'home#index'
 
   get '/login', to: 'sessions#login', as: :login
-  post '/login', to: 'sessions#login', as: :sessions_login
+  post '/login', to: 'sessions#create', as: :create_session
   delete '/logout', to: 'sessions#logout', as: :logout
 
   resources :soundfiles
