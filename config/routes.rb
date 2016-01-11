@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   get 'register', to: 'registration#new', as: :new_account
   post 'register', to: 'registration#create', as: :create_account
 
-  get '/login', to: 'sessions#login', as: :login
+  get '/login', to: 'sessions#new', as: :login
   put '/login', to: 'sessions#create', as: :create_session
-  delete '/logout', to: 'sessions#logout', as: :logout
+  delete '/logout', to: 'sessions#destroy', as: :logout
 
   resources :soundfiles
   resources :sounds
