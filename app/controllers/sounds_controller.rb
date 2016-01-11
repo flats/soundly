@@ -48,13 +48,7 @@ class SoundsController < ApplicationController
     respond_to do |format|
       if @sound.save
         unless sound_params[:soundfiles].nil?
-          @sound.soundfile.delete_attached_file
-          @sound.soundfile.update(
-            file_name: sound_params[:soundfiles][:soundfile].original_filename,
-            content_type: sound_params[:soundfiles][:soundfile].content_type,
-            sound: @sound)
-          @sound.soundfile.write_attached_file(
-            tempfile: sound_params[:soundfiles][:soundfile].tempfile)
+          @sound.replace_soundfile(sound_params[:soundfiles][:soundfile])
         end
         flash[:success] = true
         format.html { redirect_to @sound, notice: 'Sound was successfully updated.' }
