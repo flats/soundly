@@ -5,9 +5,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(username: params[:username])
     respond_to do |format|
-      if user && user.authenticate(params[:password])
+      if user = User.authenticate!(username: params[:username], password: params[:password])
         session[:user_id] = user.id
         format.html { redirect_to user_path(user.username), notice: "Welcome back, #{user.real_name}!" }
       else

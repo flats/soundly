@@ -9,6 +9,11 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :username, uniqueness: true, presence: true
 
+  def self.authenticate!(username:, password:)
+    user = User.find_by(username: username)
+    user && user.authenticate(password)
+  end
+
   def follows?(user)
     leaders.include?(user)
   end
