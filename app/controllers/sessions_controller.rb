@@ -9,10 +9,9 @@ class SessionsController < ApplicationController
     respond_to do |format|
       if user && user.authenticate(params[:password])
         session[:user_id] = user.id
-        flash[:success] = true
         format.html { redirect_to user_path(user.username), notice: "Welcome back, #{user.real_name}!" }
       else
-        flash[:notice] = "Your username or password was incorrect. Please try again."
+        flash[:error] = "Your username or password was incorrect. Please try again."
         format.html { redirect_to :login }
       end
     end

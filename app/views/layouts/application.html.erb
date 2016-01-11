@@ -17,7 +17,11 @@
     <div class="row">
       <div class="column">
         <% if flash[:notice] %>
-        <h4 id="flash"<%= " class=success" if flash[:success] %>><%= notice %></h4>
+        <h4 id="flash" class="success"><%= notice %></h4>
+        <% elsif flash[:alert] %>
+        <h4 id="flash" class="alert"><%= alert %></h4>
+        <% elsif flash[:alert] %>
+        <h4 id="flash"><%= flash[:error] %></h4>
         <% end %>
         <%= yield %>
       </div>

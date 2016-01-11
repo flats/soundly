@@ -41,24 +41,22 @@ class UsersController < ApplicationController
   def follow
     if !current_user.follows?(@user)
       @user.followers << current_user
-      flash[:success] = true
-      notice = "You are now following #{@user.username}."
+      flash[:notice] = "You are now following #{@user.username}."
     else
-      notice = "You are already following #{@user.username}."
+      flash[:alert] = "You are already following #{@user.username}."
     end
-    redirect_to user_path(@user.username), notice: notice
+    redirect_to user_path(@user.username)
   end
 
   # PUT /users/user_name/unfollow
   def unfollow
     if current_user.follows?(@user)
       @user.followers.delete(current_user)
-      flash[:success] = true
-      notice = "You are no longer following #{@user.username}."
+      flash[:notice] = "You are no longer following #{@user.username}."
     else
-      notice = "You already aren't following #{@user.username}."
+      flash[:alert] = "You already aren't following #{@user.username}."
     end
-    redirect_to user_path(current_user.username), notice: notice
+    redirect_to user_path(current_user.username)
   end
 
   private
