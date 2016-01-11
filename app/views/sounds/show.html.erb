@@ -1,13 +1,9 @@
-<p id="notice"><%= notice %></p>
+<h2><%= @sound.title %></h2>
 
-<p>
-  <strong>Title:</strong>
-  <%= @sound.title %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @sound.user %>
+<p class="audio-player">
+  <audio controls>
+    <source src="/<%= @sound.soundfile.public_file_path %>" type="<%= @sound.soundfile.content_type %>"/>
+  </audio>
 </p>
 
 <%= link_to 'Edit', edit_sound_path(@sound) %> |

@@ -40,6 +40,15 @@ class SoundfilesController < ApplicationController
   # PATCH/PUT /soundfiles/1
   # PATCH/PUT /soundfiles/1.json
   def update
+    unless params[:sound][:soundfile].nil?
+      Soundfile.delete_attached_file(@sound)
+      @sound.update(title: params[:sound][:title], soundfile: params[:sound][:soundfile][:filename])
+      @sound.write_attached_file(tempfile: params[:sound][:soundfile][:tempfile])
+    else
+      @sound.title = params[:sound][:title]
+      @sound.save
+    end
+
     respond_to do |format|
       if @soundfile.update(soundfile_params)
         format.html { redirect_to @soundfile, notice: 'Soundfile was successfully updated.' }

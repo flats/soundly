@@ -10,7 +10,7 @@ class SoundsController < ApplicationController
 
   # GET /sounds/1
   def show
-    @sound = Sound.include(:soundfile).find(params[:id])
+    @sound = Sound.includes(:soundfile).find(params[:id])
   end
 
   # GET /sounds/new
@@ -24,7 +24,13 @@ class SoundsController < ApplicationController
 
   # POST /sounds
   def create
-    @sound = Sound.new(sound_params)
+    @sound = Sound.new(title: sound_params[:title], user: current_user)
+    @soundfile = Soundfile.create(
+      file_name: sound_params[:soundfiles][:soundfile].original_filename,
+      content_type: sound_params[:soundfiles][:soundfile].content_type,
+      sound: @sound)
+    @soundfile.write_attached_file(tempfile: sound_params[:soundfiles][:soundfile].tempfile)
+    @soundfile.save
 
     respond_to do |format|
       if @sound.save
@@ -37,6 +43,16 @@ class SoundsController < ApplicationController
 
   # PATCH/PUT /sounds/1
   def update
+    binding.pry
+    unless sound_params[:soundfiles][:soundfile].nil?
+
+      Sound.delete_attached_file(@sound)
+      @sound.update(title: params[:sound][:title], soundfile: params[:sound][:soundfile][:filename])
+      @sound.write_attached_file(tempfile: params[:sound][:soundfile][:tempfile])
+    else
+      @sound.title = params[:sound][:title]
+      @sound.save
+    end
     respond_to do |format|
       if @sound.update(sound_params)
         format.html { redirect_to @sound, notice: 'Sound was successfully updated.' }
@@ -62,6 +78,6 @@ class SoundsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sound_params
-      params.require(:sound).permit(:title, :user_id)
+      params.require(:sound).permit(:title, soundfiles: [ :soundfile ], soundfiles_attributes: [ :file_name ])
     end
 end

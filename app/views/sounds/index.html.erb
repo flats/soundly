@@ -1,24 +1,28 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Listing Sounds</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Title</th>
       <th>User</th>
-      <th colspan="3"></th>
+      <th>Title</th>
+      <th>Soundfile</th>
+      <th>MIME Type</th>
+      <th>Play Sound</th>
     </tr>
   </thead>
 
   <tbody>
     <% @sounds.each do |sound| %>
       <tr>
-        <td><%= sound.title %></td>
-        <td><%= sound.user %></td>
-        <td><%= link_to 'Show', sound %></td>
-        <td><%= link_to 'Edit', edit_sound_path(sound) %></td>
-        <td><%= link_to 'Destroy', sound, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to sound.user.username, user_path(sound.user.username) %></td>
+        <td><%= link_to sound.title, sound %></td>
+        <td><%= link_to sound.soundfile.file_name, sound.soundfile.public_file_path %></td>
+        <td><%= sound.soundfile.content_type %></td>
+        <td>
+            <audio controls>
+                <source src="/<%= sound.soundfile.public_file_path %>" type="<%= sound.soundfile.content_type %>"/>
+            </audio>
+        </td>
       </tr>
     <% end %>
   </tbody>

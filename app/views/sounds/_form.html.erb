@@ -18,8 +18,8 @@
 
   <div class="field">
   <%= f.fields_for :soundfiles do |soundfile_form| %>
-    <%= soundfile_form.label :file_name, "Upload a file" %><br>
-    <%= soundfile_form.file_field :file_name %><br>
+    <%= soundfile_form.label :soundfile, "Upload a file" %><br>
+    <%= soundfile_form.file_field :soundfile %><br>
   <% end %>
   </div>
 

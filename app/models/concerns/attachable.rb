@@ -7,16 +7,17 @@ module Attachable
   end
 
   def file_path
-    UPLOAD_DIR + id_partition + "/".freeze + self.soundfile
+    upload_dir + id_partition + "/".freeze + self.file_name
   end
 
   def public_file_path
-    UPLOAD_DIR.gsub("public/", "") + id_partition + "/".freeze + self.soundfile
+    upload_dir.gsub("public/", "") + id_partition + "/".freeze + self.file_name
   end
 
   def write_attached_file(tempfile:)
     make_directories
-    File.open(file_path, "w") do |f|
+    tempfile.binmode
+    File.open(file_path, "wb") do |f|
       f.write(tempfile.read)
     end
   end
@@ -31,6 +32,10 @@ module Attachable
 
   private
   def make_directories
-    FileUtils.mkdir_p(UPLOAD_DIR + id_partition)
+    FileUtils.mkdir_p(upload_dir + id_partition)
+  end
+
+  def upload_dir
+    'public/system/uploads/'
   end
 end
