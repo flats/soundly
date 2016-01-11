@@ -437,6 +437,10 @@ h1#site-title a:hover {
   color: #000;
 }
 
+h2.sound-title {
+  margin-bottom: 0;
+}
+
 h4#flash {
   color: #ff6347;
 }
