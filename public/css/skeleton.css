@@ -478,6 +478,25 @@ div.show-actions a.button-link {
   width: 220px;
 }
 
+input.link-button {
+  color: #1EAEDB;
+  text-decoration: underline;
+  border: none;
+  height: auto;
+  width: auto;
+  text-transform: none;
+  font-size: 1em;
+  letter-spacing: 0;
+  font-weight: normal;
+  line-height: 1.5em;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+input.link-button:hover {
+  color: #0FA0CE;
+}
+
 div.show-actions a.button-link:hover {
   color: #333;
   border-color: #888;
@@ -485,4 +504,8 @@ div.show-actions a.button-link:hover {
 
 div.show-actions form input[type="submit"] {
   width: 220px;
+}
+
+form.button_to {
+  margin-bottom: 0;
 }

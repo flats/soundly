@@ -1,22 +1,15 @@
-<!-- <a href="/sounds">Browse all sounds</a><br> -->
 <%= link_to "Browse all sounds", sounds_path %><br>
-<!-- <a href="/users/new">Create an account</a><br> -->
 <%= link_to "Create an account", new_account_path %><br>
-<!-- <a href="/users/login">Log into your account</a><br> -->
 <%= link_to "Log into your account", login_path %><br>
 
 <% if logged_in? %>
 <br>
 <h4>Welcome, <%= current_user.real_name %>!</h4>
 <%= link_to "Your account & sounds", user_path(current_user.username) %><br>
-<!-- <a href="/users/<%= current_user.username %>">Your account &amp; sounds</a><br> -->
-<!-- <a href="/sounds/new">Create a sound</a><br> -->
 <%= link_to "Create a sound", new_sound_path %><br>
-<!-- <a href="/users/logout">Log out of your account</a><br> -->
-<%= button_to "Log out of your account", logout_path, method: :delete, class: "link-button" %><br>
+<%= button_to "Log out of your account", logout_path, method: :delete, class: "link-button" %>
 <% end %>
 
 <br>
 <h4>Administration</h4>
 <%= link_to "Browse and edit users", users_path %><br>
-<!-- <a href="/users">Browse and edit users</a><br> -->

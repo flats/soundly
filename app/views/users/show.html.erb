@@ -99,7 +99,7 @@
 
 <div class="show-actions">
   <% if logged_in? && current_user == @user %>
-  <%= button_to "Logout", logout_path, method: :delete %><br>
+  <%= button_to "Logout", logout_path, method: :delete %>
   <% end %>
   <%= link_to "Edit account", edit_user_path(@user.username), class: 'button-link' %><br>
   <%= button_to "Delete account", user_path(@user.username), method: :delete %><br>
