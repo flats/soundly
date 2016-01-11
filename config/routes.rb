@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :users, param: :username, only: [:index, :show, :edit, :update, :destroy] do
     member do
       put :follow
+      put :unfollow
     end
   end
   resources :home, only: [:index]

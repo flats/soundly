@@ -44,17 +44,19 @@ class SoundsController < ApplicationController
   # PATCH/PUT /sounds/1
   def update
     binding.pry
-    unless sound_params[:soundfiles][:soundfile].nil?
-
-      Sound.delete_attached_file(@sound)
-      @sound.update(title: params[:sound][:title], soundfile: params[:sound][:soundfile][:filename])
-      @sound.write_attached_file(tempfile: params[:sound][:soundfile][:tempfile])
-    else
-      @sound.title = params[:sound][:title]
-      @sound.save
-    end
+    @sound.title = sound_params[:title]
     respond_to do |format|
-      if @sound.update(sound_params)
+      if @sound.save
+        unless sound_params[:soundfiles].nil?
+          @sound.soundfile.delete_attached_file
+          @sound.soundfile.update(
+            file_name: sound_params[:soundfiles][:soundfile].original_filename,
+            content_type: sound_params[:soundfiles][:soundfile].content_type,
+            sound: @sound)
+          @sound.soundfile.write_attached_file(
+            tempfile: sound_params[:soundfiles][:soundfile].tempfile)
+        end
+        flash[:success] = true
         format.html { redirect_to @sound, notice: 'Sound was successfully updated.' }
       else
         format.html { render :edit }

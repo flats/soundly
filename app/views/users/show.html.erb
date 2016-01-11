@@ -25,7 +25,7 @@
         <tr>
             <td><%= link_to sound.title, sound %></td>
             <td><%= link_to sound.soundfile.file_name, sound.soundfile.public_file_path %></td>
-            <td><%= sound.mime_type %></td>
+            <td><%= sound.soundfile.content_type %></td>
             <td>
                 <audio controls>
                     <source src="/<%= sound.soundfile.public_file_path %>" type="<%= sound.soundfile.mime_type %>"/>
@@ -41,10 +41,10 @@
 <div class="show-actions">
   <% if current_user == @user %>
   <%= link_to "Create a new sound", new_sound_path, class: 'button-link' %><br>
-  <!-- <a href="/sounds/new" class="button-link">Create a new sound</a><br> -->
   <% elsif !@user.followers.include?(current_user) %>
-  <%= button_to "Follow this user", follow_user, method: :put %><br>
-  <!-- <a href="/users/<%= @user.username %>/follow" class="button-link">Follow this user</a><br> -->
+  <%= button_to "Follow this user", follow_user_path, method: :put %><br>
+  <% else %>
+  <%= button_to "Unfollow this user", unfollow_user_path, method: :put %><br>
   <% end %>
 </div>
 <% end %>
@@ -92,7 +92,7 @@
 <br>Followers:
 <ul id="followers-list">
   <% @followers.each do |follower| %>
-  <li><%= link_to follower.name, user_path(follower.username) %></li>
+  <li><%= link_to follower.username, user_path(follower.username) %></li>
   <% end %>
 </ul>
 <% end %>

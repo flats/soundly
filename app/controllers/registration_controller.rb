@@ -7,7 +7,6 @@ class RegistrationController < ApplicationController
 
   def create
     @user = User.new(registration_params)
-    binding.pry
     respond_to do |format|
       if @user.save && @user.username
         session[:user_id] = @user.id

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :destroy]
+  before_action :set_user, only: [:edit, :update, :destroy, :follow, :unfollow]
   skip_before_action :authenticate, only: [:index, :show]
 
   # GET /users
@@ -10,9 +10,9 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     @user = User.includes(:sounds).find_by(username: params[:username])
-    if !@user
-      render :status => 404
-    end
+    @leaders = @user.leaders.includes(:sounds) unless @user.leaders.empty?
+    @followers = @user.followers unless @user.followers.empty?
+    render status: 404 unless @user
   end
 
   # GET /users/user_name/edit
@@ -21,14 +21,12 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/user_name
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        flash[:success] = true
-        format.html { redirect_to user_path(@user.username),
-                      notice: 'User was successfully updated.' }
-      else
-        format.html { render :edit }
-      end
+    if @user.update(user_params)
+      flash[:success] = true
+      redirect_to user_path(@user.username),
+                  notice: 'User was successfully updated.'
+    else
+      render :edit
     end
   end
 
@@ -36,12 +34,31 @@ class UsersController < ApplicationController
   def destroy
     session[:user_id] = nil
     @user.destroy
-    respond_to do |format|
-      format.html {
-        redirect_to :root,
-                    notice: 'Your account was destroyed.'
-      }
+    redirect_to :root, notice: 'Your account was deleted.'
+  end
+
+  # PUT /users/user_name/follow
+  def follow
+    if !current_user.follows?(@user)
+      @user.followers << current_user
+      flash[:success] = true
+      notice = "You are now following #{@user.username}."
+    else
+      notice = "You are already following #{@user.username}."
     end
+    redirect_to user_path(@user.username), notice: notice
+  end
+
+  # PUT /users/user_name/unfollow
+  def unfollow
+    if current_user.follows?(@user)
+      @user.followers.delete(current_user)
+      flash[:success] = true
+      notice = "You are no longer following #{@user.username}."
+    else
+      notice = "You already aren't following #{@user.username}."
+    end
+    redirect_to user_path(current_user.username), notice: notice
   end
 
   private
