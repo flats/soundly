@@ -480,6 +480,7 @@ div.show-actions a.button-link {
   cursor: pointer;
   box-sizing: border-box;
   width: 220px;
+  margin-bottom: 15px;
 }
 
 input.link-button {

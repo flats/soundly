@@ -12,16 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
 
   <div class="field">
   <%= f.fields_for :soundfiles do |soundfile_form| %>
-    <%= soundfile_form.label :soundfile, "Upload a file" %><br>
-    <%= soundfile_form.file_field :soundfile %><br>
+    <%= soundfile_form.label :soundfile, "Upload a file" %>
+    <%= soundfile_form.file_field :soundfile %>
   <% end %>
   </div>
+
+  <br>
 
   <div class="actions">
     <%= f.submit %>
