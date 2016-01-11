@@ -4,13 +4,13 @@ class SoundsController < ApplicationController
 
   # GET /sounds
   def index
-    @sounds = Sound.includes(:user).all
+    @sounds = Sound.includes(:user, :soundfile).all
     # @sounds = Sound.all
   end
 
   # GET /sounds/1
   def show
-    @sound = Sound.includes(:soundfile).find(params[:id])
+    @sound = Sound.includes(:user, :soundfile).find(params[:id])
   end
 
   # GET /sounds/new

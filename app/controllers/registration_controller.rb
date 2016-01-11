@@ -13,7 +13,7 @@ class RegistrationController < ApplicationController
         format.html { redirect_to user_path(@user.username),
           notice: 'You are now registered.' }
       else
-        flash.now[:alert] = 'You are missing fields. Please try again.'
+        flash.now[:error] = 'You are missing fields. Please try again.'
         format.html { render :new }
       end
     end

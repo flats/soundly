@@ -20,7 +20,7 @@
         <h4 id="flash" class="success"><%= notice %></h4>
         <% elsif flash[:alert] %>
         <h4 id="flash" class="alert"><%= alert %></h4>
-        <% elsif flash[:alert] %>
+        <% elsif flash[:error] %>
         <h4 id="flash"><%= flash[:error] %></h4>
         <% end %>
         <%= yield %>
