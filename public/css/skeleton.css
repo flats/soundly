@@ -441,8 +441,12 @@ h2.sound-title {
   margin-bottom: 0;
 }
 
-h4#flash {
+h4#flash, div#error_explanation h4, div#error_explanation ul li, .field_with_errors label {
   color: #ff6347;
+}
+
+.field_with_errors input {
+  border-color: #ff6347;
 }
 
 h4#flash.success {
